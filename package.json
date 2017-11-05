@@ -1,0 +1,31 @@
+{
+  "name": "kabanery-signal-flow",
+  "version": "0.0.1",
+  "description": "Signal flow framework for kabanery",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoveKino/kabanery-signal-flow.git"
+  },
+  "keywords": [
+    "signal",
+    "flow",
+    "framework",
+    "kabanery"
+  ],
+  "author": "ddchen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LoveKino/kabanery-signal-flow/issues"
+  },
+  "homepage": "https://github.com/LoveKino/kabanery-signal-flow#readme",
+  "devDependencies": {
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {
+    "tree-script": "0.0.5"
+  }
+}

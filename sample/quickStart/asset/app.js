@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 29);
+/******/ 	return __webpack_require__(__webpack_require__.s = 31);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -300,11 +300,11 @@ let {
     isObject, funType, or, isString, isFalsy, likeArray
 } = __webpack_require__(0);
 
-let iterate = __webpack_require__(15);
+let iterate = __webpack_require__(16);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact
-} = __webpack_require__(32);
+} = __webpack_require__(34);
 
 let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
 
@@ -506,7 +506,7 @@ let {
     isObject, funType, or, isString, isFalsy, likeArray
 } = __webpack_require__(0);
 
-let iterate = __webpack_require__(27);
+let iterate = __webpack_require__(29);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact, reverse, overArgs
@@ -614,7 +614,7 @@ module.exports = {
 "use strict";
 
 
-module.exports = __webpack_require__(31);
+module.exports = __webpack_require__(33);
 
 /**
  * @readme-doc
@@ -936,9 +936,9 @@ let {
     isObject, isNode
 } = __webpack_require__(0);
 
-let parseArgs = __webpack_require__(33);
+let parseArgs = __webpack_require__(35);
 
-let parseStyle = __webpack_require__(16);
+let parseStyle = __webpack_require__(17);
 
 const KABANERY_NODE = 'kabanery_node';
 
@@ -1046,7 +1046,7 @@ module.exports = {
 "use strict";
 
 
-let uuidv4 = __webpack_require__(17);
+let uuidv4 = __webpack_require__(18);
 
 let seed = uuidv4();
 
@@ -1066,7 +1066,7 @@ module.exports = {
 
 let {
     createElement, createSvgElement
-} = __webpack_require__(47);
+} = __webpack_require__(49);
 
 let {
     bindEvents
@@ -1106,7 +1106,7 @@ module.exports = reduceNode;
 "use strict";
 
 
-let EventMatrix = __webpack_require__(48);
+let EventMatrix = __webpack_require__(50);
 
 let {
     eventMapHook
@@ -1143,6 +1143,48 @@ module.exports = {
 "use strict";
 
 
+let Signal = (type, data) => {
+    return {
+        type,
+        data
+    };
+};
+
+let isSignalType = (s, type) => {
+    return s.type === type;
+};
+
+let onSignalType = (expectType, fn) => (signal, ...rest) => {
+    if (isSignalType(signal, expectType)) {
+        return fn(signal, ...rest);
+    }
+};
+
+let deliver = (ctx, type, extra) => (sourceSignal, sourceData, sourceCtx) => {
+    ctx.notify(Signal(type, {
+        sourceType: 'delivered',
+        sourceSignal,
+        sourceData,
+        sourceCtx,
+        extra
+    }));
+};
+
+module.exports = {
+    Signal,
+    onSignalType,
+    isSignalType,
+    deliver
+};
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 module.exports = {
     WAIT: 2,
     MATCH: 1,
@@ -1151,7 +1193,7 @@ module.exports = {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1238,7 +1280,7 @@ module.exports = {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -1290,7 +1332,7 @@ module.exports = {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1299,19 +1341,19 @@ module.exports = {
 let {
     view
 } = __webpack_require__(4);
-let steadyTheme = __webpack_require__(50);
+let steadyTheme = __webpack_require__(52);
 let {
     deepMergeMap,
     resolveFnValue
 } = __webpack_require__(2);
-let ClassTable = __webpack_require__(55);
+let ClassTable = __webpack_require__(57);
 let {
     Signal
-} = __webpack_require__(20);
-let JsonTree = __webpack_require__(56);
+} = __webpack_require__(11);
+let JsonTree = __webpack_require__(21);
 let {
     executeAST
-} = __webpack_require__(58);
+} = __webpack_require__(22);
 
 /**
  * define the general interface for lumine view
@@ -1415,7 +1457,7 @@ module.exports = (viewFun) => ({
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1522,7 +1564,7 @@ module.exports = iterate;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1588,11 +1630,11 @@ let convertStyleValue = (value, key) => {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(40);
-var bytesToUuid = __webpack_require__(42);
+var rng = __webpack_require__(42);
+var bytesToUuid = __webpack_require__(44);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -1623,7 +1665,7 @@ module.exports = v4;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1670,7 +1712,7 @@ let getDoc = (node) => {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1727,49 +1769,91 @@ module.exports = {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let Signal = (type, data) => {
-    return {
-        type,
-        data
+let {
+    autoId,
+    isObject,
+
+    modifySuccess,
+    removeNoneExist,
+    removeSuccess
+} = __webpack_require__(58);
+
+module.exports = (jsonData, {
+    missingValue = undefined
+} = {}) => {
+    let queryByPath = (path) => {
+        let cur = jsonData;
+        for (let i = 0; i < path.length; i++) {
+            if (!isObject(cur)) {
+                return missingValue;
+            } else {
+                if (cur.hasOwnProperty(path[i])) {
+                    cur = cur[path[i]];
+                } else {
+                    return missingValue;
+                }
+            }
+        }
+
+        return cur;
     };
-};
 
-let isSignalType = (s, type) => {
-    return s.type === type;
-};
+    let setByPath = (path, value) => {
+        let parent = jsonData;
 
-let onSignalType = (expectType, fn) => (signal, ...rest) => {
-    if (isSignalType(signal, expectType)) {
-        return fn(signal, ...rest);
-    }
-};
+        for (let i = 0; i < path.length - 1; i++) {
+            let part = path[i];
+            let next = parent[part];
+            if (!isObject(next)) { // if is not object, just override to a empty object
+                next = {}; // create a new middle node
+                parent[part] = next;
+            }
+            parent = next;
+        }
 
-let deliver = (ctx, type, extra) => (sourceSignal, sourceData, sourceCtx) => {
-    ctx.notify(Signal(type, {
-        sourceType: 'delivered',
-        sourceSignal,
-        sourceData,
-        sourceCtx,
-        extra
-    }));
-};
+        parent[path[path.length - 1]] = value; // set value
+        return modifySuccess(path, value);
+    };
 
-module.exports = {
-    Signal,
-    onSignalType,
-    isSignalType,
-    deliver
+    return {
+        queryByPath,
+
+        setByPath,
+
+        removeByPath: (path) => {
+            let parentPath = path.slice(0, path.length - 1);
+            let lastKey = path[path.length - 1];
+            let parent = queryByPath(parentPath);
+            if (parent === missingValue || !isObject(parent) || !parent.hasOwnProperty(lastKey)) {
+                return removeNoneExist(path);
+            } else {
+                delete parent[lastKey];
+                return removeSuccess(path);
+            }
+        },
+
+        appendByPath: (path, value) => {
+            return setByPath(path.concat([autoId()]), value);
+        }
+    };
 };
 
 
 /***/ }),
-/* 21 */
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(59);
+
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1815,7 +1899,7 @@ module.exports = __webpack_require__(61);
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1918,7 +2002,7 @@ module.exports = {
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1928,7 +2012,7 @@ let {
     isObject, funType, or, isString, isFalsy, likeArray
 } = __webpack_require__(0);
 
-let iterate = __webpack_require__(24);
+let iterate = __webpack_require__(26);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact, reverse, overArgs
@@ -2030,7 +2114,7 @@ module.exports = {
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2176,7 +2260,7 @@ module.exports = {
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2196,7 +2280,7 @@ module.exports = {
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2210,7 +2294,7 @@ module.exports = {
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2356,7 +2440,7 @@ module.exports = {
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports) {
 
 let getProductionId = (production) => {
@@ -2401,14 +2485,14 @@ module.exports = {
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const lumineView = __webpack_require__(30);
+const lumineView = __webpack_require__(32);
 const {
     Signal,
     onSignalType
-} = __webpack_require__(20);
+} = __webpack_require__(11);
 const n = __webpack_require__(85);
 const Button = __webpack_require__(86);
 const {
@@ -2423,6 +2507,7 @@ const TestView = lumineView(({
 }, ctx) => {
     return n('div', [
         n('p', `count: ${props.count}`),
+
         n(Button, {
             onsignal: onSignalType('click', () => {
                 ctx.updateWithNotify(Signal('submit'));
@@ -2449,19 +2534,19 @@ mount(n(TestView, {
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let lumineViewer = __webpack_require__(14);
+let lumineViewer = __webpack_require__(15);
 
 module.exports = (viewFun, options) => lumineViewer(viewFun)(options);
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2478,13 +2563,13 @@ let {
     parseStyle
 } = __webpack_require__(7);
 
-let plugs = __webpack_require__(35);
+let plugs = __webpack_require__(37);
 
-let view = __webpack_require__(38);
+let view = __webpack_require__(40);
 
-let mount = __webpack_require__(18);
+let mount = __webpack_require__(19);
 
-let N = __webpack_require__(49);
+let N = __webpack_require__(51);
 
 let reduceNode = __webpack_require__(9);
 
@@ -2514,13 +2599,13 @@ module.exports = {
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let iterate = __webpack_require__(15);
+let iterate = __webpack_require__(16);
 
 let defauls = {
     eq: (v1, v2) => v1 === v2
@@ -2619,13 +2704,13 @@ module.exports = {
 
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let parseAttribute = __webpack_require__(34);
+let parseAttribute = __webpack_require__(36);
 
 let {
     isString,
@@ -2716,7 +2801,7 @@ module.exports = parseArgs;
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2726,7 +2811,7 @@ let {
     isString
 } = __webpack_require__(0);
 
-let parseStyle = __webpack_require__(16);
+let parseStyle = __webpack_require__(17);
 
 let {
     mergeMap
@@ -2790,14 +2875,14 @@ module.exports = parseAttribute;
 
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let twowaybinding = __webpack_require__(36);
-let eventError = __webpack_require__(37);
+let twowaybinding = __webpack_require__(38);
+let eventError = __webpack_require__(39);
 
 module.exports = {
     twowaybinding,
@@ -2806,7 +2891,7 @@ module.exports = {
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2833,7 +2918,7 @@ module.exports = (obj, path) => (tagName, attributes, childExp) => {
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2865,7 +2950,7 @@ let wrapEventHandler = (fun, catcher) => {
 
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2885,11 +2970,11 @@ let {
     forEach
 } = __webpack_require__(1);
 
-let replace = __webpack_require__(39);
+let replace = __webpack_require__(41);
 
 let reduceNode = __webpack_require__(9);
 
-let mount = __webpack_require__(18);
+let mount = __webpack_require__(19);
 
 /**
  * render function: (data) => node
@@ -3084,7 +3169,7 @@ module.exports = View;
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3106,7 +3191,7 @@ let {
     eventMapHook
 } = __webpack_require__(8);
 
-let applyAttibutes = __webpack_require__(43);
+let applyAttibutes = __webpack_require__(45);
 
 let replaceDirectly = (node, newNode) => {
     let parent = node.parentNode;
@@ -3228,7 +3313,7 @@ module.exports = (node, newNode) => {
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
@@ -3265,10 +3350,10 @@ if (!rng) {
 
 module.exports = rng;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)))
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports) {
 
 var g;
@@ -3295,7 +3380,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports) {
 
 /**
@@ -3324,7 +3409,7 @@ module.exports = bytesToUuid;
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3332,7 +3417,7 @@ module.exports = bytesToUuid;
 
 let {
     getAttributeMap
-} = __webpack_require__(44);
+} = __webpack_require__(46);
 
 let {
     hasOwnProperty
@@ -3371,15 +3456,15 @@ module.exports = applyAttibutes;
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let shadowFrame = __webpack_require__(45);
+let shadowFrame = __webpack_require__(47);
 
-let startMomenter = __webpack_require__(46);
+let startMomenter = __webpack_require__(48);
 
 let getX = (elem) => {
     var x = 0;
@@ -3462,7 +3547,7 @@ module.exports = {
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3517,7 +3602,7 @@ module.exports = shadowFrame;
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3573,7 +3658,7 @@ module.exports = startMomenter;
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3620,7 +3705,7 @@ module.exports = {
 
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3776,7 +3861,7 @@ let getGlobalEventTypeId = (type) => `${globalEventTypePrefix}${type}`;
 
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3832,13 +3917,13 @@ module.exports = (...args) => {
 
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let base = __webpack_require__(51);
+let base = __webpack_require__(53);
 
 module.exports = base({
     pageColor: 'white',
@@ -3870,7 +3955,7 @@ module.exports = base({
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3880,10 +3965,10 @@ let {
     styles
 } = __webpack_require__(2);
 
-let layout = __webpack_require__(19);
-let Bulk = __webpack_require__(52);
-let Actions = __webpack_require__(53);
-let Widget = __webpack_require__(54);
+let layout = __webpack_require__(20);
+let Bulk = __webpack_require__(54);
+let Actions = __webpack_require__(55);
+let Widget = __webpack_require__(56);
 
 module.exports = (basics, custom = {}) => {
     let bulks = Bulk(basics);
@@ -3906,7 +3991,7 @@ module.exports = (basics, custom = {}) => {
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3916,7 +4001,7 @@ let {
     styles
 } = __webpack_require__(2);
 
-let layout = __webpack_require__(19);
+let layout = __webpack_require__(20);
 
 let {
     container
@@ -3966,7 +4051,7 @@ module.exports = (basics) => {
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = (basics) => {
@@ -3995,7 +4080,7 @@ module.exports = (basics) => {
 
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 let {
@@ -4070,7 +4155,7 @@ module.exports = (basics, layout, bulks) => {
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4167,90 +4252,13 @@ module.exports = (classTable) => {
 
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let {
-    autoId,
-    isObject,
-
-    modifySuccess,
-    removeNoneExist,
-    removeSuccess
-} = __webpack_require__(57);
-
-module.exports = (jsonData, {
-    missingValue = undefined
-} = {}) => {
-    let queryByPath = (path) => {
-        let cur = jsonData;
-        for (let i = 0; i < path.length; i++) {
-            if (!isObject(cur)) {
-                return missingValue;
-            } else {
-                if (cur.hasOwnProperty(path[i])) {
-                    cur = cur[path[i]];
-                } else {
-                    return missingValue;
-                }
-            }
-        }
-
-        return cur;
-    };
-
-    let setByPath = (path, value) => {
-        let parent = jsonData;
-
-        for (let i = 0; i < path.length - 1; i++) {
-            let part = path[i];
-            let next = parent[part];
-            if (!isObject(next)) { // if is not object, just override to a empty object
-                next = {}; // create a new middle node
-                parent[part] = next;
-            }
-            parent = next;
-        }
-
-        parent[path[path.length - 1]] = value; // set value
-        return modifySuccess(path, value);
-    };
-
-    return {
-        queryByPath,
-
-        setByPath,
-
-        removeByPath: (path) => {
-            let parentPath = path.slice(0, path.length - 1);
-            let lastKey = path[path.length - 1];
-            let parent = queryByPath(parentPath);
-            if (parent === missingValue || !isObject(parent) || !parent.hasOwnProperty(lastKey)) {
-                return removeNoneExist(path);
-            } else {
-                delete parent[lastKey];
-                return removeSuccess(path);
-            }
-        },
-
-        appendByPath: (path, value) => {
-            return setByPath(path.concat([autoId()]), value);
-        }
-    };
-};
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-let uuidv4 = __webpack_require__(17);
+let uuidv4 = __webpack_require__(18);
 
 let autoId = () => {
     let time = new Date().getTime(); // used to sort by time
@@ -4305,13 +4313,6 @@ module.exports = {
 
 
 /***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(59);
-
-
-/***/ }),
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4335,7 +4336,7 @@ let {
     T_FUNCTION,
     T_NODE_NAME,
     T_NODE_NAME_VARIABLE
-} = __webpack_require__(13);
+} = __webpack_require__(14);
 
 let executeAST = (ast, {
     queryByPath,
@@ -4487,14 +4488,14 @@ module.exports = {
 "use strict";
 
 
-let streamTokenSpliter = __webpack_require__(21);
+let streamTokenSpliter = __webpack_require__(23);
 let {
     LR
 } = __webpack_require__(70);
 let {
     getProductionId,
     processTokens,
-} = __webpack_require__(28);
+} = __webpack_require__(30);
 let tokenTypes = __webpack_require__(81);
 let {
     ACTION,
@@ -4544,7 +4545,7 @@ let {
     T_FUNCTION,
     T_NODE_NAME,
     T_NODE_NAME_VARIABLE
-} = __webpack_require__(13);
+} = __webpack_require__(14);
 
 module.exports = () => {
     let tokenSpliter = streamTokenSpliter.parser(tokenTypes);
@@ -4763,7 +4764,7 @@ let {
 
 let {
     WAIT, MATCH, QUIT
-} = __webpack_require__(11);
+} = __webpack_require__(12);
 
 let {
     stateGraphDSL
@@ -4786,7 +4787,7 @@ let {
 
 let {
     assembleToken
-} = __webpack_require__(25);
+} = __webpack_require__(27);
 
 /**
  *
@@ -5123,7 +5124,7 @@ module.exports = {
 "use strict";
 
 
-let actionDSL = __webpack_require__(22);
+let actionDSL = __webpack_require__(24);
 
 let {
     isNormalAction, isRangeAction, isUnionAction, isLeftAction, isEpsilonAction
@@ -5143,7 +5144,7 @@ let {
 
 let {
     mergeMap
-} = __webpack_require__(23);
+} = __webpack_require__(25);
 
 let transitionMaper = (graph) => {
     let transitions = {};
@@ -5359,7 +5360,7 @@ let {
     isString, isObject
 } = __webpack_require__(0);
 
-let actionDSL = __webpack_require__(22);
+let actionDSL = __webpack_require__(24);
 
 let {
     toAction
@@ -5367,7 +5368,7 @@ let {
 
 let {
     mergeMap
-} = __webpack_require__(23);
+} = __webpack_require__(25);
 
 /**
  * graph definition DSL
@@ -5515,7 +5516,7 @@ module.exports = mergeMap(actionDSL, {
 
 let {
     iterate
-} = __webpack_require__(24);
+} = __webpack_require__(26);
 
 let {
     isFunction
@@ -5684,7 +5685,7 @@ let {
 
 let {
     MATCH, WAIT, QUIT
-} = __webpack_require__(11);
+} = __webpack_require__(12);
 
 let stringMatch = (word) => (prefix) => {
     if (word === prefix) return MATCH;
@@ -5712,11 +5713,11 @@ module.exports = {
 
 let {
     WAIT, MATCH
-} = __webpack_require__(11);
+} = __webpack_require__(12);
 
 let {
     assembleToken
-} = __webpack_require__(25);
+} = __webpack_require__(27);
 
 let filterTypes = (nextLetter, prefix, tokenTypes) => {
     let parts = [],
@@ -5905,7 +5906,7 @@ module.exports = {
 
 let {
     END_SYMBOL, EXPAND_START_SYMBOL
-} = __webpack_require__(26);
+} = __webpack_require__(28);
 
 let {
     initAST,
@@ -6203,7 +6204,7 @@ module.exports = {
 
 let {
     iterate
-} = __webpack_require__(27);
+} = __webpack_require__(29);
 
 let {
     isFunction
@@ -6336,7 +6337,7 @@ let {
 } = __webpack_require__(78);
 let {
     sameClosure
-} = __webpack_require__(12);
+} = __webpack_require__(13);
 
 module.exports = (grammer) => {
     let {
@@ -6413,7 +6414,7 @@ let getStateIndex = (C, I) => findIndex(C, I, {
 
 let {
     buildClosure
-} = __webpack_require__(12);
+} = __webpack_require__(13);
 let {
     reduce
 } = __webpack_require__(3);
@@ -6498,7 +6499,7 @@ let {
 
 let {
     buildClosure
-} = __webpack_require__(12);
+} = __webpack_require__(13);
 
 /**
  * jump
@@ -6892,7 +6893,7 @@ module.exports = (grammer) => {
 
 const {
     END_SYMBOL, EXPAND_START_SYMBOL, EPSILON
-} = __webpack_require__(26);
+} = __webpack_require__(28);
 
 /**
  * context free grammer is read-only
@@ -6991,7 +6992,7 @@ let {
 
 let {
     buildFSM
-} = __webpack_require__(21);
+} = __webpack_require__(23);
 
 let FSM = __webpack_require__(6);
 let {
@@ -7199,7 +7200,7 @@ let {
     isObject,
     isFunction,
     isString
-} = __webpack_require__(28);
+} = __webpack_require__(30);
 
 let {
     T_ASSIGN,
@@ -7210,7 +7211,7 @@ let {
     T_NODE_NAME_VARIABLE,
 
     A_DEFAULT
-} = __webpack_require__(13);
+} = __webpack_require__(14);
 
 /**
  *
@@ -7446,10 +7447,10 @@ module.exports = `
 let {
     n
 } = __webpack_require__(4);
-let lumineViewer = __webpack_require__(14);
+let lumineViewer = __webpack_require__(15);
 let {
     Signal
-} = __webpack_require__(20);
+} = __webpack_require__(11);
 let {
     styles
 } = __webpack_require__(2);
@@ -7571,10 +7572,13 @@ const parseSignalAction = (signalAction, variableMap, {
         throw new Error(`Content of action should be string or function, but got ${cnt}, in action ${type}.`);
     }
 
+    let nextVariableMap = getVariableMap(variableMap, signalAction);
+    let nextVariableStub = getVariableStub(variableStub, signalAction);
+
     if (type === ACTION_SIGNAL_UPDATE_STATE) { // update state
         if (typeof cnt === 'string') { // tree script
             // parse code to AST
-            const ast = getTreeScriptAst(cnt, getVariableStub(variableStub, signalAction));
+            const ast = getTreeScriptAst(cnt, nextVariableStub);
 
             signalAction.content = (signal, viewState, ctx) => {
                 return new Promise((resolve, reject) => {
@@ -7584,7 +7588,7 @@ const parseSignalAction = (signalAction, variableMap, {
                             viewState
                         }, clientState);
 
-                        updateTree(data, ast, variableMap, variableStub);
+                        updateTree(data, ast, nextVariableMap, nextVariableStub);
 
                         // update page, TODO, if expose signal
                         // TODO silient without update, used to do test
@@ -7599,10 +7603,7 @@ const parseSignalAction = (signalAction, variableMap, {
         }
     } else if (type === ACTION_SIGNAL_SEND_REQUEST) {
         if (typeof cnt === 'string') {
-            let nextVariableMap = getVariableMap(variableMap, signalAction);
-            let nextVariableStub = getVariableStub(variableStub, signalAction);
             let requestAst = getTreeScriptAst(cnt, nextVariableStub);
-
             let responseUpdate = getResponseHandler(signalAction.response, nextVariableMap, nextVariableStub);
             let errorUpdate = getErrorHandler(signalAction.error, nextVariableMap, nextVariableStub);
 
@@ -7612,7 +7613,9 @@ const parseSignalAction = (signalAction, variableMap, {
             }) => {
                 let requestContext = Object.assign({}, nextVariableMap, apiMap);
 
-                return runApi(updateTree(viewState, requestAst, requestContext, variableStub)).then((response) => {
+                return runApi(
+                    updateTree(viewState, requestAst, requestContext, nextVariableStub)
+                ).then((response) => {
                     return responseUpdate && responseUpdate(response, viewState, ctx);
                 }).catch((err) => {
                     errorUpdate && errorUpdate(err, viewState, ctx);
@@ -7694,9 +7697,9 @@ const {
     parseStrToAst,
     checkAST,
     executeAST
-} = __webpack_require__(58);
+} = __webpack_require__(22);
 
-const JsonTree = __webpack_require__(56); // using json tree, right now
+const JsonTree = __webpack_require__(21); // using json tree, right now
 
 const getTreeScriptAst = (code, variableStub) => {
     let ast = parseStrToAst(code);

@@ -17,6 +17,7 @@ const TestView = lumineView(({
 }, ctx) => {
     return n('div', [
         n('p', `count: ${props.count}`),
+
         n(Button, {
             onsignal: onSignalType('click', () => {
                 ctx.updateWithNotify(Signal('submit'));

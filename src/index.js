@@ -27,7 +27,7 @@ const signalActionFlow = (signalActionMap, pageEnv, variableMap = {}, {
         variableStub
     });
 
-    // onsignal handler
+    // handler
     return (signal, viewState, ctx) => {
         let actions = signalActionMap[signal.type] || [];
         return runSignalActions(signal, actions, viewState, ctx, pageEnv);
@@ -81,8 +81,8 @@ const parseSignalAction = (signalAction, variableMap, {
         throw new Error(`Content of action should be string or function, but got ${cnt}, in action ${type}.`);
     }
 
-    let nextVariableMap = getVariableMap(variableMap, signalAction);
-    let nextVariableStub = getVariableStub(variableStub, signalAction);
+    const nextVariableMap = getVariableMap(variableMap, signalAction);
+    const nextVariableStub = getVariableStub(variableStub, signalAction);
 
     if (type === ACTION_SIGNAL_UPDATE_STATE) { // update state
         if (typeof cnt === 'string') { // tree script

@@ -121,9 +121,13 @@ const parseSignalAction = (signalAction, variableMap, {
                 apiMap
             }) => {
                 let requestContext = Object.assign({}, nextVariableMap, apiMap);
+                let data = Object.assign({
+                    signal,
+                    viewState
+                }, clientState);
 
                 return runApi(
-                    updateTree(viewState, requestAst, requestContext, nextVariableStub)
+                    updateTree(data, requestAst, requestContext, nextVariableStub)
                 ).then((response) => {
                     return responseUpdate && responseUpdate(response, viewState, ctx);
                 }).catch((err) => {

@@ -11,5 +11,8 @@
   "devDependencies": {
     "kabanery-lumine": "0.0.48",
     "webpack": "^3.8.1"
+  },
+  "dependencies": {
+    "kabanery-signal-flow": "git+https://github.com/LoveKino/kabanery-signal-flow.git"
   }
 }

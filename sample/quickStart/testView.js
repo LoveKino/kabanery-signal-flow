@@ -1,10 +1,42 @@
 const lumineView = require('kabanery-lumine/lib/util/lumineView');
+const {
+    Signal,
+    onSignalType
+} = require('kabanery-lumine/lib/util/signal');
 const n = require('kabanery-lumine/lib/util/n');
 const Button = require('kabanery-lumine/lib/view/button/button');
-const {mount} = require('kabanery');
+const {
+    mount
+} = require('kabanery');
+const {
+    signalActionFlow
+} = require('kabanery-signal-flow');
 
-const TestView = lumineView(() => {
-    return n(Button, 'test');
+const TestView = lumineView(({
+    props
+}, ctx) => {
+    return n('div', [
+        n('p', `count: ${props.count}`),
+        n(Button, {
+            onsignal: onSignalType('click', () => {
+                ctx.updateWithNotify(Signal('submit'));
+            })
+        }, 'submit')
+    ]);
+}, {
+    defaultProps: {
+        count: 0
+    }
 });
 
-mount(TestView(), document.body);
+mount(n(TestView, {
+    onsignal: signalActionFlow({
+        submit: [{
+            type: 'updateState',
+            content: '.viewState.props.count=add(.viewState.props.count, 1)',
+            variableMap: {
+                add: (a, b) => a + b
+            }
+        }]
+    })
+}), document.body);

@@ -81,10 +81,13 @@ const parseSignalAction = (signalAction, variableMap, {
         throw new Error(`Content of action should be string or function, but got ${cnt}, in action ${type}.`);
     }
 
+    let nextVariableMap = getVariableMap(variableMap, signalAction);
+    let nextVariableStub = getVariableStub(variableStub, signalAction);
+
     if (type === ACTION_SIGNAL_UPDATE_STATE) { // update state
         if (typeof cnt === 'string') { // tree script
             // parse code to AST
-            const ast = getTreeScriptAst(cnt, getVariableStub(variableStub, signalAction));
+            const ast = getTreeScriptAst(cnt, nextVariableStub);
 
             signalAction.content = (signal, viewState, ctx) => {
                 return new Promise((resolve, reject) => {
@@ -94,7 +97,7 @@ const parseSignalAction = (signalAction, variableMap, {
                             viewState
                         }, clientState);
 
-                        updateTree(data, ast, variableMap, variableStub);
+                        updateTree(data, ast, nextVariableMap, nextVariableStub);
 
                         // update page, TODO, if expose signal
                         // TODO silient without update, used to do test
@@ -109,10 +112,7 @@ const parseSignalAction = (signalAction, variableMap, {
         }
     } else if (type === ACTION_SIGNAL_SEND_REQUEST) {
         if (typeof cnt === 'string') {
-            let nextVariableMap = getVariableMap(variableMap, signalAction);
-            let nextVariableStub = getVariableStub(variableStub, signalAction);
             let requestAst = getTreeScriptAst(cnt, nextVariableStub);
-
             let responseUpdate = getResponseHandler(signalAction.response, nextVariableMap, nextVariableStub);
             let errorUpdate = getErrorHandler(signalAction.error, nextVariableMap, nextVariableStub);
 
@@ -122,7 +122,9 @@ const parseSignalAction = (signalAction, variableMap, {
             }) => {
                 let requestContext = Object.assign({}, nextVariableMap, apiMap);
 
-                return runApi(updateTree(viewState, requestAst, requestContext, variableStub)).then((response) => {
+                return runApi(
+                    updateTree(viewState, requestAst, requestContext, nextVariableStub)
+                ).then((response) => {
                     return responseUpdate && responseUpdate(response, viewState, ctx);
                 }).catch((err) => {
                     errorUpdate && errorUpdate(err, viewState, ctx);

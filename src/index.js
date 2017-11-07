@@ -9,6 +9,10 @@ const clientState = {
     localStorage: typeof localStorage !== 'undefined' && localStorage
 };
 
+const debugLog = (text) => {
+    console.log(`[ksf-debug] ${text}`); // eslint-disable-line
+};
+
 /**
  * action flow
  */
@@ -76,6 +80,7 @@ const parseSignalAction = (signalAction, variableMap, {
 }) => {
     const type = signalAction.type;
     const cnt = signalAction.content;
+    const debugMode = signalAction.debug;
 
     if (typeof cnt !== 'string' && typeof cnt !== 'function') {
         throw new Error(`Content of action should be string or function, but got ${cnt}, in action ${type}.`);
@@ -96,6 +101,8 @@ const parseSignalAction = (signalAction, variableMap, {
                             signal,
                             viewState
                         }, clientState);
+
+                        debugMode && debugLog(data);
 
                         updateTree(data, ast, nextVariableMap, nextVariableStub);
 
@@ -120,17 +127,29 @@ const parseSignalAction = (signalAction, variableMap, {
                 runApi,
                 apiMap
             }) => {
-                let requestContext = Object.assign({}, nextVariableMap, apiMap);
-                let data = Object.assign({
-                    signal,
-                    viewState
-                }, clientState);
+                let apiRet = null;
+                try {
+                    let requestContext = Object.assign({}, nextVariableMap, apiMap);
+                    debugMode && debugLog(`requestContext: ${requestContext}`);
+                    let data = Object.assign({
+                        signal,
+                        viewState
+                    }, clientState);
+                    debugMode && debugLog(`source: ${data}`);
 
-                return runApi(
-                    updateTree(data, requestAst, requestContext, nextVariableStub)
-                ).then((response) => {
+                    let apiData = updateTree(data, requestAst, requestContext, nextVariableStub);
+                    debugMode && debugLog(`start to runApi with ${apiData}`);
+                    apiRet = runApi(apiData);
+
+                } catch (err) {
+                    apiRet = Promise.reject(err);
+                }
+
+                return Promise.resolve(apiRet).then((response) => {
+                    debugMode && debugLog(`response: ${response}`);
                     return responseUpdate && responseUpdate(response, viewState, ctx);
                 }).catch((err) => {
+                    debugMode && debugLog(`request error: ${err}`);
                     errorUpdate && errorUpdate(err, viewState, ctx);
                     throw err;
                 });

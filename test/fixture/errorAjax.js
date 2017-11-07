@@ -18,7 +18,7 @@ const TestView = lumineView(({
     props
 }, ctx) => {
     return n('div', [
-        props.a && n('span', props.a),
+        props.errorMsg && n('span', props.errorMsg),
         n(Button, {
             onsignal: onSignalType('click', () => {
                 ctx.updateWithNotify(Signal('submit'));
@@ -27,29 +27,21 @@ const TestView = lumineView(({
     ]);
 }, {
     defaultProps: {
-        id: 1000,
-        a: null
+        errorMsg: null
     }
 });
-
-let responseFlag = false;
 
 mount(n(TestView, {
     onsignal: signalActionFlow({
         submit: [{
             type: 'sendRequest',
             content: 'getEntry(.viewState.props.id)',
-            response: '.viewState.props.a = .response.a;'
+            error: '.viewState.props.errorMsg = .errorMsg'
         }]
     }, {
         runApi: (url) => {
-            return fetch(url).then((res) => res.json()).then((data) => {
-                responseFlag = true;
-                assert.deepEqual(data, {
-                    a: 1
-                });
-
-                return data;
+            return fetch(url).then((res) => res.json()).then(() => {
+                throw new Error('err123');
             });
         },
         apiMap: {
@@ -62,17 +54,12 @@ mount(n(TestView, {
 
 module.exports = new Promise((resolve, reject) => {
     document.querySelector('button').click();
-
     setTimeout(() => {
-        if (responseFlag) {
-            try {
-                assert.equal(document.querySelector('span').textContent, '1');
-                resolve();
-            } catch (err) {
-                reject(err);
-            }
-        } else {
-            reject(new Error('no response'));
+        try {
+            assert.equal(document.querySelector('span').textContent, 'Error: err123');
+            resolve();
+        } catch (err) {
+            reject(err);
         }
     }, 1000);
 });

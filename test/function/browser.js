@@ -34,15 +34,15 @@ let runFileInBrowser = (file) => {
                         a: 1
                     }));
                 }
-            },
-
+            }
         });
     });
 };
 
 let testFiles = {
     'base': path.join(__dirname, '../fixture/base.js'),
-    'ajax': path.join(__dirname, '../fixture/ajax.js')
+    'ajax': path.join(__dirname, '../fixture/ajax.js'),
+    'errorAjax': path.join(__dirname, '../fixture/errorAjax.js')
 };
 
 describe('signal-flow', () => {

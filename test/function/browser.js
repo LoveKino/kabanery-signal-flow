@@ -1,10 +1,10 @@
 'use strict';
 
-let browserJsEnv = require('browser-js-env');
-let promisify = require('es6-promisify');
-let fs = require('fs');
-let path = require('path');
-let readFile = promisify(fs.readFile);
+const browserJsEnv = require('browser-js-env');
+const promisify = require('es6-promisify');
+const fs = require('fs');
+const path = require('path');
+const readFile = promisify(fs.readFile);
 
 const puppeteer = require('puppeteer');
 
@@ -42,7 +42,9 @@ let runFileInBrowser = (file) => {
 let testFiles = {
     'base': path.join(__dirname, '../fixture/base.js'),
     'ajax': path.join(__dirname, '../fixture/ajax.js'),
-    'errorAjax': path.join(__dirname, '../fixture/errorAjax.js')
+    'errorAjax': path.join(__dirname, '../fixture/errorAjax.js'),
+    'sequenceContent': path.join(__dirname, '../fixture/sequenceContent.js'),
+    'delay': path.join(__dirname, '../fixture/delay.js')
 };
 
 describe('signal-flow', () => {

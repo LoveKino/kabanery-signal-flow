@@ -1,15 +1,11 @@
 const assert = require('assert');
 
-const lumineView = require('kabanery-lumine/lib/util/lumineView');
 const {
-    Signal,
-    onSignalType
-} = require('kabanery-lumine/lib/util/signal');
-const n = require('kabanery-lumine/lib/util/n');
-const Button = require('kabanery-lumine/lib/view/button/button');
-const {
+    lumineView,
+    n,
     mount
-} = require('kabanery');
+} = require('kabanery-lumine');
+const Button = require('kabanery-lumine/lib/view/button/button');
 const {
     signalActionFlow
 } = require('../../index.js');
@@ -20,9 +16,7 @@ const TestView = lumineView(({
     return n('div', [
         props.a && n('span', props.a),
         n(Button, {
-            onsignal: onSignalType('click', () => {
-                ctx.updateWithNotify(Signal('submit'));
-            })
+            onsignal: ctx.pass('click', 'submit')
         }, 'submit')
     ]);
 }, {
@@ -39,7 +33,7 @@ mount(n(TestView, {
         submit: [{
             type: 'sendRequest',
             content: 'getEntry(.viewState.props.id)',
-            response: '.viewState.props.a = .response.a;'
+            response: '.props.a = .response.a;'
         }]
     }, {
         runApi: (url) => {

@@ -36,7 +36,7 @@ mount(n(TestView, {
         submit: [{
             type: 'sendRequest',
             content: 'getEntry(.viewState.props.id)',
-            error: '.viewState.props.errorMsg = .errorMsg'
+            error: ['.props.errorMsg = .errorMsg']
         }]
     }, {
         runApi: (url) => {

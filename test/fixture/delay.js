@@ -9,6 +9,9 @@ const Button = require('kabanery-lumine/lib/view/button/button');
 const {
     signalActionFlow
 } = require('../../index.js');
+const {
+    delay
+} = require('../../lib/util');
 
 const TestView = lumineView(({
     props
@@ -28,19 +31,15 @@ const TestView = lumineView(({
 
 mount(n(TestView, {
     onsignal: signalActionFlow({
-        'submit': [{
-            content: '.props.count=add(.props.count, 1)',
-            variableMap: {
-                add: (a, b) => a + b
-            }
-        }]
+        'submit': [1000, '.props.count=2']
     })
 }), document.body);
 
 document.querySelector('button').click();
 
-assert.equal(document.querySelector('p').textContent, 'count: 1');
-
-document.querySelector('button').click();
-
-assert.equal(document.querySelector('p').textContent, 'count: 2');
+module.exports = delay(500).then(() => {
+    assert.equal(document.querySelector('p').textContent, 'count: 0');
+    return delay(600);
+}).then(() => {
+    assert.equal(document.querySelector('p').textContent, 'count: 2');
+});

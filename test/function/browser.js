@@ -45,6 +45,7 @@ let testFiles = {
     'errorAjax': path.join(__dirname, '../fixture/errorAjax.js'),
     'sequenceContent': path.join(__dirname, '../fixture/sequenceContent.js'),
     'delay': path.join(__dirname, '../fixture/delay.js'),
+    'retry': path.join(__dirname, '../fixture/retry.js'),
     'ajaxSequence': path.join(__dirname, '../fixture/ajaxSequence.js')
 };
 

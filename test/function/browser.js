@@ -44,7 +44,8 @@ let testFiles = {
     'ajax': path.join(__dirname, '../fixture/ajax.js'),
     'errorAjax': path.join(__dirname, '../fixture/errorAjax.js'),
     'sequenceContent': path.join(__dirname, '../fixture/sequenceContent.js'),
-    'delay': path.join(__dirname, '../fixture/delay.js')
+    'delay': path.join(__dirname, '../fixture/delay.js'),
+    'ajaxSequence': path.join(__dirname, '../fixture/ajaxSequence.js')
 };
 
 describe('signal-flow', () => {

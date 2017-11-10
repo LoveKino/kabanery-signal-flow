@@ -33,7 +33,14 @@ let runFileInBrowser = (file) => {
                     res.end(JSON.stringify({
                         a: 1
                     }));
+                },
+
+                '/api/test2': (req, res) => {
+                    res.end(JSON.stringify({
+                        a: 2
+                    }));
                 }
+
             }
         });
     });

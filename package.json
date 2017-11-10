@@ -1,6 +1,6 @@
 {
   "name": "kabanery-signal-flow",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Signal flow framework for kabanery",
   "main": "index.js",
   "scripts": {

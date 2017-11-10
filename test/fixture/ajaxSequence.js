@@ -32,33 +32,29 @@ mount(n(TestView, {
             type: 'sendRequest',
             content: 'getEntry(.props.id)',
             response: [
-                '.props.a = succ(.response.a);',
+                '.props.a = .response.a;',
                 {
                     type: 'sendRequest',
-                    content: 'getEntry(.props.id)',
-                    response: '.props.a = succ(.props.a);'
+                    content: 'getEntry2(.props.id)',
+                    response: '.props.a = add(.response.a, .props.a);'
                 }
             ],
 
             variableMap: {
-                succ: (v) => {
-                    return v + 1;
-                }
+                add: (v1, v2) => v1 + v2
             }
         }]
     }, {
         runApi: (url) => {
-            return fetch(url).then((res) => res.json()).then((data) => {
-                assert.deepEqual(data, {
-                    a: 1
-                });
-
-                return data;
-            });
+            return fetch(url).then((res) => res.json());
         },
         apiMap: {
             getEntry: (id) => {
                 return `/api/test?id=${id}`;
+            },
+
+            getEntry2: (id) => {
+                return `/api/test2?id=${id}`;
             }
         }
     })

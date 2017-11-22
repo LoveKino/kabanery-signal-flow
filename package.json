@@ -1,6 +1,6 @@
 {
   "name": "kabanery-signal-flow",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Signal flow framework for kabanery",
   "main": "index.js",
   "scripts": {
@@ -30,6 +30,6 @@
     "puppeteer": "^0.12.0"
   },
   "dependencies": {
-    "tree-script": "0.0.5"
+    "tree-script": "0.0.6"
   }
 }

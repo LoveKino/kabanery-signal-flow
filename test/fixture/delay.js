@@ -31,7 +31,7 @@ const TestView = lumineView(({
 
 mount(n(TestView, {
     onsignal: signalActionFlow({
-        'submit': [1000, '.props.count=2']
+        'submit': [1000, '1? .props.count=2: 0']
     })
 }), document.body);
 
